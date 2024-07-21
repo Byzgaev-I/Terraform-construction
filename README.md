@@ -112,7 +112,7 @@ resource "null_resource" "provision_web" {
 
 Cформировал template inventory.tftpl
 
-```yaml
+```sh
 [webservers]
 
 %{~ for i in webservers ~}
