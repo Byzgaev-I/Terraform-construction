@@ -4,6 +4,10 @@ provider "yandex" {
   folder_id = "b1gam4o6rj97es4peaq4"
 }
 
+data "yandex_compute_image" "ubuntu" {
+  family = "ubuntu-2004-lts"
+}
+
 resource "yandex_compute_instance" "web" {
   count = 2
 
@@ -18,7 +22,7 @@ resource "yandex_compute_instance" "web" {
 
   boot_disk {
     initialize_params {
-      image_id = "fd8rj2ffqf7h9k0r9m9g"  # Замените на ID вашего образа
+      image_id = data.yandex_compute_image.ubuntu.id
     }
   }
 
