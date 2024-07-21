@@ -135,6 +135,9 @@ ${i["name"]}   ansible_host=${i.network_interface[0].nat_ip_address == "" ? i.ne
 %{~ endfor ~}
 ```
 
+![image.jpg](https://github.com/Byzgaev-I/Terraform-construction/blob/main/4.png)
+
+
 
 
 
