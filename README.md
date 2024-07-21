@@ -22,3 +22,118 @@ terraform apply
  В результате в YC создана группа сеть develop с подсетью develop и группой безопасности example_dynamic:
 
  ![image.jpg](https://github.com/Byzgaev-I/Terraform-construction/blob/main/1.png) 
+
+
+---
+
+### Задание 2
+
+1) Создайте файл count-vm.tf. Опишите в нём создание двух одинаковых ВМ web-1 и web-2 (не web-0 и web-1) с минимальными параметрами, используя мета-аргумент count loop. Назначьте ВМ созданную в первом задании группу безопасности.(как это сделать узнайте в документации провайдера yandex/compute_instance )
+2) Создайте файл for_each-vm.tf. Опишите в нём создание двух ВМ для баз данных с именами "main" и "replica" разных по cpu/ram/disk_volume , используя мета-аргумент for_each loop.
+При желании внесите в переменную все возможные параметры. 4. ВМ из пункта 2.1 должны создаваться после создания ВМ из пункта 2.2. 5. Используйте функцию file в local-переменной для считывания ключа ~/.ssh/id_rsa.pub и его последующего использования в блоке metadata, взятому из ДЗ 2. 6. Инициализируйте проект, выполните код.
+
+### Выполнения задания 2
+
+- В файле variables.tf добавил переменные web_vm и backend_vm с дефолтными параметрами для создания ВМ. 
+Параметры вынесены в переменные, без хардкода.
+- В файле count-vm.tf описал создание двух одинаковых ВМ web-1 и web-2, в файле for_each-vm.tf описал создание main и replica.
+- depends_on обозначил, что backend-ВМ создается только после web-ВМ.
+- locals.tf считываем открытыю част ключа из файла и составление local-метаданных, которые затем с помощью merge соединяются с metadata из variables ВМ.
+
+Выполняем и видим, что ресурсы созданы.
+
+```sh
+
+terraform plan 
+terraform apply 
+
+```
+
+ ![image.jpg](https://github.com/Byzgaev-I/Terraform-construction/blob/main/2.png) 
+
+ ![image.jpg](https://github.com/Byzgaev-I/Terraform-construction/blob/main/2%2C1.png)
+
+### Задание 3
+
+1) Создайте 3 одинаковых виртуальных диска размером 1 Гб с помощью ресурса yandex_compute_disk и мета-аргумента count в файле disk_vm.tf .
+2) Создайте в том же файле одиночную(использовать count или for_each запрещено из-за задания №4) ВМ c именем "storage" . Используйте блок dynamic secondary_disk{..} и мета-аргумент for_each для подключения созданных вами дополнительных дисков.
+
+### Выполнения задания 3
+
+- В файле disk_vm.tf создал ресурс с дисками и ВМ storage.
+  
+![image.jpg](https://github.com/Byzgaev-I/Terraform-construction/blob/main/3.png)
+
+![image.jpg](https://github.com/Byzgaev-I/Terraform-construction/blob/main/3.1.png)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
