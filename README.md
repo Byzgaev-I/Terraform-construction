@@ -77,7 +77,7 @@ terraform apply
 
 ansible.tf
 
-``` YAML
+```
 resource "local_file" "inventory" {
   content = templatefile("${path.module}/inventory.tftpl", {
     webservers = yandex_compute_instance.web
