@@ -1,42 +1,34 @@
-provider "yandex" {
-  token     = "y0_AgAAAAAAqYCBAATuwQAAAAEKezjYAADtzaLyKlNM7Z0e4gbif4KWCNHUjw"
-  cloud_id  = "b1g31ab21b32dog1ps4c"
-  folder_id = "b1gam4o6rj97es4peaq4"
-}
-
-data "yandex_compute_image" "ubuntu" {
-  family = "ubuntu-2004-lts"
+data "yandex_compute_image" "web" {
+  family = var.web_vm.image_id
 }
 
 resource "yandex_compute_instance" "web" {
-  count = 2
-
-  name = "web-${count.index + 1}"
-
-  depends_on = [yandex_compute_instance.db]
+  count       = var.web_vm.count
+  name        = "${var.web_vm.name}-${count.index + 1}"
+  platform_id = var.web_vm.platform_id
 
   resources {
-    cores  = 2
-    memory = 2
+    cores         = var.web_vm.resources.cores
+    memory        = var.web_vm.resources.memory
+    core_fraction = var.web_vm.resources.core_fraction
   }
 
   boot_disk {
     initialize_params {
-      image_id = data.yandex_compute_image.ubuntu.id
+      image_id = data.yandex_compute_image.web.image_id
     }
   }
 
   network_interface {
-    subnet_id          = "<your-subnet-id>"
-    nat                = true
-    security_group_ids = ["<your-security-group-id>"]
+    subnet_id = yandex_vpc_subnet.develop.id
+    nat       = var.web_vm.nat
+    security_group_ids = [
+      yandex_vpc_security_group.example.id
+    ]
   }
-
-  metadata = {
-    ssh-keys = "ubuntu:${file("~/.ssh/id_rsa.pub")}"
-  }
-
   scheduling_policy {
-    preemptible = true
+    preemptible = var.web_vm.preemptible
   }
+
+  metadata = merge(var.web_vm.metadata, local.metadata)
 }
