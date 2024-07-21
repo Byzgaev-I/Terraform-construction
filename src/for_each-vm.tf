@@ -1,3 +1,13 @@
+provider "yandex" {
+  token     = "y0_AgAAAAAAqYCBAATuwQAAAAEKezjYAADtzaLyKlNM7Z0e4gbif4KWCNHUjw"
+  cloud_id  = "b1g31ab21b32dog1ps4c"
+  folder_id = "b1gam4o6rj97es4peaq4"
+}
+
+data "yandex_compute_image" "ubuntu" {
+  family = "ubuntu-2004-lts"
+}
+
 variable "each_vm" {
   type = list(object({
     vm_name    = string
@@ -36,7 +46,7 @@ resource "yandex_compute_instance" "db" {
 
   boot_disk {
     initialize_params {
-      image_id = "fd8rj2ffqf7h9k0r9m9g"  # Замените на ID вашего образа
+      image_id = data.yandex_compute_image.ubuntu.id
       size     = each.value.disk_volume
     }
   }
