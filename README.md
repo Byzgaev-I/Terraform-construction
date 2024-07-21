@@ -12,4 +12,13 @@
 
 ### Выполнения задания 1
 
+Изучил проект, заполнил personal.auto.tfvars, выполнил: 
+ ```sh
 
+terraform plan 
+terraform apply 
+
+```
+ В результате в YC создана группа сеть develop с подсетью develop и группой безопасности example_dynamic:
+
+ ![image.jpg](https://github.com/Byzgaev-I/Terraform-construction/blob/main/1.png) 
